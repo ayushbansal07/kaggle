@@ -5,6 +5,7 @@ import numpy as np
 from sklearn import svm
 from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier as RFC
+from sklearn.naive_bayes import GaussianNB
 
 trainfile = pd.read_csv("train.csv",header=None)
 lblfile = pd.read_csv("trainLabels.csv",header=None)
@@ -34,6 +35,10 @@ print "DT-> ",clf2.score(test_features,test_labels)
 clf3 = RFC()
 clf3.fit(train_features,train_labels)
 print "RFC-> ",clf3.score(test_features,test_labels)
+
+clf4 = GaussianNB()
+clf4.fit(train_features,train_labels)
+print "NB-> ",clf4.score(test_features,test_labels)
 #print clf3.predict(test_features)
 
 #print predictions
