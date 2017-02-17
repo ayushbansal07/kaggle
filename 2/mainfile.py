@@ -8,15 +8,26 @@ from enum import Enum
 
 
 trainfile = pd.read_csv("train.csv",index_col=0)
+testfile = pd.read_csv("test.csv",index_col=0)
 #print trainfile["MSSubClass"][1]
 #print trainfile.head()
+# print "---------------------------------------------"
+# print testfile.head()
+
+# print trainfile.info()
+# print "---------------------------------------------"
+# print testfile.info()
+
 
 train_data = trainfile.as_matrix()
+
 #print train_data[0]
 #print train_data
 
 train_features = train_data[:,:-1]
 train_labels = train_data[:,-1:]
+
+# print train_features[:,1]
 #print train_labels
 '''
 reg = LinearRegression()
@@ -72,5 +83,61 @@ average =  msscsum/mssc
 # print average.shape
 # print train_features[:,0:1].shape
 plt.scatter(['20','30','40','45','50','60','70','75','80','85','90','120','150','160','180','190'],average)
-plt.show()
+#plt.show()
+plt.savefig("MSSubClass.png")
 '''
+
+'''
+#MSZoning
+#Can be removed
+mszoningmat = train_features[:,1]
+ct = np.zeros(5)
+
+sumval = np.zeros(5)
+i=0
+for x in mszoningmat:
+	ct[getval(x)]+=1
+	sumval[getval(x)]+=train_labels[i,0]
+	i+=1
+avg = sumval/ct
+# for i in ct:
+# 	print i
+# for i in avg:
+# 	print i
+plt.plot(np.array([1,2,3,4,5]),avg)
+plt.savefig("MSZoning_average")
+MSZoning_train_dummies = pd.get_dummies(trainfile['MSZoning'])
+MSZoning_test_dummies = pd.get_dummies(testfile['MSZoning'])
+#print MSZoning_train_dummies
+for i,s in trainfile.iterrows():
+		trainfile.loc[i,"MSZoning"] = getval(s["MSZoning"])
+for i,s in testfile.iterrows():
+		testfile.loc[i,"MSZoning"] = getval(s["MSZoning"])
+# print trainfile.head()
+# print testfile.head()
+
+#Not able t join it.
+# trainfile.join(MSZoning_train_dummies)	
+# testfile.join(MSZoning_test_dummies)
+# trainfile.drop(['MSZoning'],inplace=True,axis=1)
+# testfile.drop(['MSZoning'],inplace=True,axis=1)
+
+# print trainfile.head()
+'''
+def getval_MSZoning(x):
+	arr = ['C (all)','FV','RH','RL','RM']
+	j=0
+	for i in arr:
+		if x==i:
+			return j
+		j+=1
+for i,s in trainfile.iterrows():
+		trainfile.loc[i,"MSZoning"] = getval_MSZoning(s["MSZoning"])
+for i,s in testfile.iterrows():
+		testfile.loc[i,"MSZoning"] = getval_MSZoning(s["MSZoning"])
+# print trainfile.head()
+# print testfile.head()
+
+#LotFrontage
+#cntains aroung 200 NaN values
+print testfile["LotFrontage"].head()
