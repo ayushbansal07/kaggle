@@ -135,9 +135,30 @@ for i,s in trainfile.iterrows():
 		trainfile.loc[i,"MSZoning"] = getval_MSZoning(s["MSZoning"])
 for i,s in testfile.iterrows():
 		testfile.loc[i,"MSZoning"] = getval_MSZoning(s["MSZoning"])
+testfile["MSZoning"].fillna(3,inplace=True)
 # print trainfile.head()
 # print testfile.head()
 
 #LotFrontage
-#cntains aroung 200 NaN values
-print testfile["LotFrontage"].head()
+#contains around 200 NaN values
+#print testfile["LotFrontage"].head()
+train_lot_mean = trainfile["LotFrontage"].mean()
+train_lot_std = trainfile["LotFrontage"].std()
+train_lot_nanct = trainfile["LotFrontage"].isnull().sum()
+
+print train_lot_mean,train_lot_std,train_lot_nanct
+
+test_lot_mean = testfile["LotFrontage"].mean()
+test_lot_std = testfile["LotFrontage"].std()
+test_lot_nanct = testfile["LotFrontage"].isnull().sum()
+
+rand_train = np.random.randint(train_lot_mean - train_lot_std,train_lot_mean + train_lot_std, size = train_lot_nanct)
+rand_test = np.random.randint(test_lot_mean - test_lot_std,test_lot_mean + test_lot_std, size = test_lot_nanct)
+
+trainfile["LotFrontage"][np.isnan(trainfile["LotFrontage"])]=rand_train
+testfile["LotFrontage"][np.isnan(testfile["LotFrontage"])]=rand_test
+
+print trainfile.info()
+print testfile.info()
+
+#Plot for LotFrontage
