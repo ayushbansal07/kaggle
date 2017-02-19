@@ -161,4 +161,32 @@ testfile["LotFrontage"][np.isnan(testfile["LotFrontage"])]=rand_test
 print trainfile.info()
 print testfile.info()
 
+'''
 #Plot for LotFrontage
+# plt.scatter(trainfile["LotFrontage"],trainfile["SalePrice"])
+# plt.show()
+# MIN_SALES_PRICE = np.amin(np.array(trainfile["SalePrice"]))
+# MAX_SALES_PRICE = np.amax(np.array(trainfile["SalePrice"]))
+
+mat_lot = np.array(trainfile["LotFrontage"])
+mat_price = np.array(trainfile["SalePrice"])
+MAXVAL = np.amax(mat_lot)
+MINVAL = np.amin(mat_lot)
+
+ct = np.zeros(10)
+sm = np.zeros(10)
+
+factor = math.ceil((MAXVAL-MINVAL)/10.)
+i=0
+print ct[0]
+for x in mat_lot:
+	ct[(x-MINVAL)/factor]+=1
+	sm[(x-MINVAL)/factor]+=mat_price[i]
+	i+=1
+
+# plt.hist(np.array(trainfile["LotFrontage"]),5,(np.array(trainfile["SalePrice"])-MIN_SALES_PRICE)/((MAX_SALES_PRICE- MIN_SALES_PRICE)*1000.))
+plt.plot(np.array([0,1,2,3,4,5,6,7,8,9]),sm/ct)
+plt.savefig("LotFrontage.png")
+'''
+
+#LotArea
