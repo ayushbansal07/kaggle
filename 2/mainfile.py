@@ -27,6 +27,8 @@ train_data = trainfile.as_matrix()
 train_features = train_data[:,:-1]
 train_labels = train_data[:,-1:]
 
+mat_price = np.array(trainfile["SalePrice"])
+
 # print train_features[:,1]
 #print train_labels
 '''
@@ -136,6 +138,8 @@ for i,s in trainfile.iterrows():
 for i,s in testfile.iterrows():
 		testfile.loc[i,"MSZoning"] = getval_MSZoning(s["MSZoning"])
 testfile["MSZoning"].fillna(3,inplace=True)
+testfile["MSZoning"]=testfile["MSZoning"].astype(int)
+trainfile["MSZoning"]=trainfile["MSZoning"].astype(int)
 # print trainfile.head()
 # print testfile.head()
 
@@ -158,8 +162,8 @@ rand_test = np.random.randint(test_lot_mean - test_lot_std,test_lot_mean + test_
 trainfile["LotFrontage"][np.isnan(trainfile["LotFrontage"])]=rand_train
 testfile["LotFrontage"][np.isnan(testfile["LotFrontage"])]=rand_test
 
-print trainfile.info()
-print testfile.info()
+# print trainfile.info()
+# print testfile.info()
 
 '''
 #Plot for LotFrontage
@@ -188,5 +192,183 @@ for x in mat_lot:
 plt.plot(np.array([0,1,2,3,4,5,6,7,8,9]),sm/ct)
 plt.savefig("LotFrontage.png")
 '''
+'''
+#street
+ct_street = np.zeros(2)
+sum_street = np.zeros(2)
+i=0
+mat_price = np.array(trainfile["SalePrice"])
+for x in trainfile["Street"]:
+	if x=="Pave":
+		ct_street[0]+=1
+		sum_street[0]+=mat_price[i]
+	else:
+		ct_street[1]+=1
+		sum_street[1]+=mat_price[i]
+	i+=1
+print ct_street
+print sum_street/ct_street
+'''
+#Dropping Street as it has no significance and Alley as it has not sufficient data
+trainfile.drop(["Street","Alley"],axis=1,inplace=True)
+testfile.drop(["Street","Alley"],axis=1,inplace=True)
 
-#LotArea
+# print trainfile.info()
+# print testfile.info()
+'''
+#LotShape
+ct_lotshape = np.zeros(4)
+sum_lotshape = np.zeros(4)
+i=0
+for x in trainfile["LotShape"]:
+	if x=="Reg":
+		ct_lotshape[0]+=1
+		sum_lotshape[0]+=mat_price[i]
+	elif x=="IR1":
+		ct_lotshape[1]+=1
+		sum_lotshape[1]+=mat_price[i]
+	elif x=="IR2":
+		ct_lotshape[2]+=1
+		sum_lotshape[2]+=mat_price[i]
+	else:
+		ct_lotshape[3]+=1
+		sum_lotshape[3]+=mat_price[i]
+	i+=1
+
+print ct_lotshape
+print sum_lotshape/ct_lotshape
+'''
+def getval_LotShape(x):
+	if x=="Reg":
+		return 0
+	elif x=="IR1":
+		return 1
+	elif x=="IR2":
+		return 2
+	else:
+		return 3
+
+for i,s in trainfile.iterrows():
+		trainfile.loc[i,"LotShape"] = getval_LotShape(s["LotShape"])
+for i,s in testfile.iterrows():
+		testfile.loc[i,"LotShape"] = getval_LotShape(s["LotShape"])
+testfile["LotShape"]=testfile["LotShape"].astype(int)
+trainfile["LotShape"]=trainfile["LotShape"].astype(int)
+# print trainfile.info()
+# print testfile.info()
+
+#General function used again and again
+def average_counts(ntype,lists,varname):
+	ct = np.zeros(ntype)
+	sums = np.zeros(ntype)
+	i=0
+	for x in trainfile[varname]:
+		j=0
+		for y in lists:
+			if y==x:
+				break
+			j+=1
+		ct[j]+=1
+		sums[j]+=mat_price[i]
+		i+=1
+	print ct
+	print sums/ct
+	return ct,sums
+
+def give_dummy_vars(lists,varname):
+	for i,s in trainfile.iterrows():
+		j=0
+		for y in lists:
+			if y==s[varname]:
+				break
+			j+=1
+		trainfile.loc[i,varname] = j
+	for i,s in testfile.iterrows():
+		j=0
+		for y in lists:
+			if y==s[varname]:
+				break
+			j+=1
+		testfile.loc[i,varname] = j
+	testfile[varname]=testfile[varname].astype(int)
+	trainfile[varname]=trainfile[varname].astype(int)
+
+def printinfo():
+	print trainfile.info()
+	print testfile.info()
+'''
+#LandContour
+ct_LandContour, sum_LandContour = average_counts(4,["Lvl","Bnk","HLS","Low"],"LandContour")
+print ct_LandContour
+print sum_LandContour/ct_LandContour
+'''
+give_dummy_vars(["Lvl","Bnk","HLS","Low"],"LandContour")
+
+# print trainfile.info()
+# print testfile.info()
+'''
+#Utilities Fill NaN values in testfile
+ct_util,sum_util = average_counts(4,["AllPub","NoSewr","NoSeWa","ELO"],"Utilities")
+print ct_util
+print sum_util/ct_util
+'''
+
+#Drop Utilities
+trainfile.drop(["Utilities"],axis=1,inplace=True)
+testfile.drop(["Utilities"],axis=1,inplace=True)
+
+#LotConfig
+'''
+ct_lotconfig, sum_lotconfig = average_counts(5,["Inside","Corner","CulDSac","FR2","FR3"],"LotConfig")
+print ct_lotconfig
+print sum_lotconfig/ct_lotconfig
+'''
+give_dummy_vars(["Inside","Corner","CulDSac","FR2","FR3"],"LotConfig")
+
+#LandSlope
+# ct_ls,sum_ls = average_counts(3,["Gtl","Mod","Sev"],"LandSlope")
+give_dummy_vars(["Gtl","Mod","Sev"],"LandSlope")
+'''
+#Neighbourhood
+neighbors=["Blmngtn","Blueste","BrDale","BrkSide","ClearCr","CollgCr","Crawfor","Edwards","Gilbert","IDOTRR","MeadowV","Mitchel","NAmes","NoRidge","NPkVill","NridgHt","NWAmes","OldTown","SWISU","Sawyer","SawyerW","Somerst","StoneBr","Timber","Veenker"]
+
+ct_ng,sum_ng = average_counts(25,neighbors,"Neighborhood")
+plt.plot(range(0,25),sum_ng/ct_ng)
+plt.savefig("neighbors.png")
+'''
+neighbors=["Blmngtn","Blueste","BrDale","BrkSide","ClearCr","CollgCr","Crawfor","Edwards","Gilbert","IDOTRR","MeadowV","Mitchel","NAmes","NoRidge","NPkVill","NridgHt","NWAmes","OldTown","SWISU","Sawyer","SawyerW","Somerst","StoneBr","Timber","Veenker"]
+give_dummy_vars(neighbors,"Neighborhood")
+'''
+#Condition1&2
+ct_cond1,sum_cond1 = average_counts(9,conditions,"Condition1")
+ct_cond2,sum_cond2 = average_counts(9,conditions,"Condition2")
+ct_cond = np.array(ct_cond1)+np.array(ct_cond2)
+sum_cond = np.array(sum_cond1)+np.array(sum_cond2)
+print ct_cond
+print sum_cond/ct_cond
+# plt.plot(range(0,9),sum_cond/ct_cond)
+# plt.savefig("Conditon1_and_2.png")
+'''
+conditions = ["Artery","Feedr","Norm","RRNn","RRAn","PosN","PosA","RRNe","RRAe"]
+give_dummy_vars(conditions,"Condition1")
+give_dummy_vars(conditions,"Condition2")
+
+#BldgType
+#ct_btype,sum_btype = average_counts(5,["1Fam","2fmCon","Duplex","TwnhsE","Twnhs"],"BldgType")
+give_dummy_vars(["1Fam","2fmCon","Duplex","TwnhsE","Twnhs"],"BldgType")
+
+#HouseStyle
+#ct_htype,sum_htype = average_counts(8,["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer","SLvl"],"HouseStyle")
+give_dummy_vars(["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer","SLvl"],"HouseStyle")
+
+#OverallQuality
+#ct_overall,sum_overall = average_counts(10,range(1,11),"OverallQual")
+
+#OverallCondition
+#ct_overall,sum_overall = average_counts(10,range(1,11),"OverallCond")
+#Dropping Overall Condition as it does not give expected result
+
+trainfile.drop(["OverallCond"],axis=1,inplace=True)
+testfile.drop(["OverallCond"],axis=1,inplace=True)
+
+printinfo()

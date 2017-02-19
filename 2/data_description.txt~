@@ -136,7 +136,7 @@ BldgType: Type of dwelling
        2fmCon	Two-family Conversion; originally built as one-family dwelling
        Duplex	Duplex
        TwnhsE	Townhouse End Unit
-       Twnhs	Townhouse Inside Unit
+       TwnhsI	Townhouse Inside Unit
 	
 HouseStyle: Style of dwelling
 	
