@@ -150,7 +150,7 @@ train_lot_mean = trainfile["LotFrontage"].mean()
 train_lot_std = trainfile["LotFrontage"].std()
 train_lot_nanct = trainfile["LotFrontage"].isnull().sum()
 
-print train_lot_mean,train_lot_std,train_lot_nanct
+# print train_lot_mean,train_lot_std,train_lot_nanct
 
 test_lot_mean = testfile["LotFrontage"].mean()
 test_lot_std = testfile["LotFrontage"].std()
@@ -262,7 +262,8 @@ def average_counts(ntype,lists,varname):
 	ct = np.zeros(ntype)
 	sums = np.zeros(ntype)
 	i=0
-	for x in trainfile[varname]:
+	for x in trainfile[varname][pd.isnull(trainfile[varname])==False]:
+		#print x
 		j=0
 		for y in lists:
 			if y==x:
@@ -371,4 +372,145 @@ give_dummy_vars(["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer",
 trainfile.drop(["OverallCond"],axis=1,inplace=True)
 testfile.drop(["OverallCond"],axis=1,inplace=True)
 
+#YearBuilt
+# MIN_Year = np.amin(np.array(trainfile["YearBuilt"]))
+# MAX_Year = np.amax(np.array(trainfile["YearBuilt"]))
+'''
+mat_yearbuilt = (np.array(trainfile["YearBuilt"])-1870)/10
+ct_yearbuilt = np.zeros(15)
+sum_yearbuilt = np.zeros(15)
+i=0
+for x in mat_yearbuilt:
+	ct_yearbuilt[x]+=1
+	sum_yearbuilt[x]+=mat_price[i]
+	i+=1
+print ct_yearbuilt
+print sum_yearbuilt/ct_yearbuilt
+plt.plot(range(0,15),sum_yearbuilt/ct_yearbuilt)
+plt.savefig("YearBuilt.png")
+'''
+# mat_yearbuilt = (np.array(trainfile["YearBuilt"])-1870)/10
+# j=0
+# for i,s in trainfile.iterrows():
+# 	trainfile.loc[i,"YearBuilt"] = mat_yearbuilt[j]
+# 	j+=1
+# mat_yearbuilt = (np.array(testfile["YearBuilt"])-1870)/10
+# j=0
+# for i,s in testfile.iterrows():
+# 	testfile.loc[i,"YearBuilt"] = mat_yearbuilt[j]
+# 	j+=1
+# trainfile["YearBuilt"]=trainfile["YearBuilt"].astype(int)
+# testfile["YearBuilt"]=testfile["YearBuilt"].astype(int)
+#Drop YearBuilt
+
+trainfile.drop(["YearBuilt"],axis=1,inplace=True)
+testfile.drop(["YearBuilt"],axis=1,inplace=True)
+
+# print trainfile["YearBuilt"].head()
+# print testfile["YearBuilt"].head()
+
+#YearRemodAdd
+'''
+mat_yearadd = (np.array(trainfile["YearRemodAdd"])-1870)/10
+ct_yearadd = np.zeros(15)
+sum_yearadd = np.zeros(15)
+i=0
+for x in mat_yearadd:
+	ct_yearadd[x]+=1
+	sum_yearadd[x]+=mat_price[i]
+	i+=1
+print ct_yearadd
+print sum_yearadd/ct_yearadd
+plt.plot(range(0,15),sum_yearadd/ct_yearadd)
+plt.savefig("YearRemodAdd.png")
+'''
+# print np.amin(np.array(trainfile["YearRemodAdd"]))
+# print np.amin(np.array(testfile["YearRemodAdd"]))
+mat_yearadd = (np.array(trainfile["YearRemodAdd"])-1950)/10
+j=0
+for i,s in trainfile.iterrows():
+	trainfile.loc[i,"YearRemodAdd"] = mat_yearadd[j]
+	j+=1
+mat_yearadd = (np.array(testfile["YearRemodAdd"])-1950)/10
+j=0
+for i,s in testfile.iterrows():
+	testfile.loc[i,"YearRemodAdd"] = mat_yearadd[j]
+	j+=1
+trainfile["YearRemodAdd"]=trainfile["YearRemodAdd"].astype(int)
+testfile["YearRemodAdd"]=testfile["YearRemodAdd"].astype(int)
+
+# print trainfile["YearRemodAdd"].head()
+# print testfile["YearRemodAdd"].head()
+
+#RoofStyle
+#ct_rd,sum_rs=average_counts(6,["Flat","Gable","Gambrel","Hip","Mansard","Shed"],"RoofStyle")
+give_dummy_vars(["Flat","Gable","Gambrel","Hip","Mansard","Shed"],"RoofStyle")
+
+#RoofMatl
+#ct_rm,sum_rm = average_counts(8,["ClyTile","CompShg","Membran","Metal","Roll","Tar&Grv","WdShake","WdShngl"],"RoofMatl")
+
+#General Function
+def dropfunc(varname):
+	trainfile.drop([varname],axis=1,inplace=True)
+	testfile.drop([varname],axis=1,inplace=True)
+
+#Drop RoofMatl
+dropfunc("RoofMatl")
+
+#Exterior1&2
+# conditions = ["AsbShng","AsphShn","BrkComm","BrkFace","CBlock","CemntBd","HdBoard","ImStucc","MetalSd","Other","Plywood","PreCast","Stone","Stucco","VinylSd","Wd","WdShing"]
+# ct_cond1,sum_cond1 = average_counts(17,conditions,"Exterior1st")
+# ct_cond2,sum_cond2 = average_counts(17,conditions,"Exterior2nd")
+# ct_cond = np.array(ct_cond1)+np.array(ct_cond2)
+# sum_cond = np.array(sum_cond1)+np.array(sum_cond2)
+# print ct_cond
+# print sum_cond/ct_cond
+
+
+# give_dummy_vars(conditions,"Condition1")
+# give_dummy_vars(conditions,"Condition2")
+
+#Drop exterior1and2
+dropfunc("Exterior1st")
+dropfunc("Exterior2nd")
+
+
+#MasVnrType   COntains NaN objects
+#ct_mvt,sum_mvt= average_counts(5,["BrkCmn","BrkFace","CBlock","None","Stone"],"MasVnrType")
+trainfile["MasVnrType"].fillna("None",inplace=True)
+testfile["MasVnrType"].fillna("None",inplace=True)
+
+give_dummy_vars(["BrkCmn","BrkFace","None","Stone"],"MasVnrType")
+
+#MSVnrArea
+#print (trainfile["MasVnrArea"]==0).sum()
+#Drop as almost half of the values are zero
+dropfunc("MasVnrArea")
+
+#ExterQual
+#cteq,sumeq = average_counts(5,["Ex","Gd","TA","Fa","Po"],"ExterQual")
+#print (testfile["ExterQual"]=="Po").sum()
+give_dummy_vars(["Ex","Gd","TA","Fa"],"ExterQual")
+
+#ExterCond
+# ctec,sumec = average_counts(5,["Ex","Gd","TA","Fa","Po"],"ExterCond")
+# give_dummy_vars(["Ex","Gd","TA","Fa"],"ExterCond")
+#Drop it
+dropfunc("ExterCond")
+
+#Foundation
+#cf,sumf = average_counts(6,["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
+give_dummy_vars(["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
+printinfo()
+
+#BsmtQual
+#ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"BsmtQual")
+give_dummy_vars(["Ex","Gd","TA","Fa"],"BsmtQual")
+# print (testfile["BsmtQual"]=="Po").sum()
+
+#BsmtCond
+# ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"BsmtCond")
+# give_dummy_vars(["Ex","Gd","TA","Fa","Po"],"BsmtCond")
+#Drop it
+dropfunc("BsmtCond")
 printinfo()

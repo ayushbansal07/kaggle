@@ -170,4 +170,3 @@ SaleCondition    1459 non-null object
 dtypes: float64(11), int64(25), object(43)
 memory usage: 911.9+ KB
 None
-['RL' 'RL' 'RL' ..., 'RL' 'RL' 'RL']
