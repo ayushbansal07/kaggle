@@ -501,10 +501,11 @@ dropfunc("ExterCond")
 #Foundation
 #cf,sumf = average_counts(6,["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
 give_dummy_vars(["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
-printinfo()
 
 #BsmtQual
-#ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"BsmtQual")
+# ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"BsmtQual")
+trainfile["BsmtQual"].fillna("TA",inplace=True)
+testfile["BsmtQual"].fillna("TA",inplace=True)
 give_dummy_vars(["Ex","Gd","TA","Fa"],"BsmtQual")
 # print (testfile["BsmtQual"]=="Po").sum()
 
@@ -513,4 +514,11 @@ give_dummy_vars(["Ex","Gd","TA","Fa"],"BsmtQual")
 # give_dummy_vars(["Ex","Gd","TA","Fa","Po"],"BsmtCond")
 #Drop it
 dropfunc("BsmtCond")
+
+#BsmtExposure
+# ctbm,sumbm = average_counts(5,["Gd","Av",'Mn','No','NA'],"BsmtExposure")
+trainfile["BsmtExposure"].fillna("No",inplace=True)
+testfile["BsmtExposure"].fillna("No",inplace=True)
+give_dummy_vars(["Gd","Av",'Mn','No'],"BsmtExposure")
 printinfo()
+
