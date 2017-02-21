@@ -303,7 +303,7 @@ ct_LandContour, sum_LandContour = average_counts(4,["Lvl","Bnk","HLS","Low"],"La
 print ct_LandContour
 print sum_LandContour/ct_LandContour
 '''
-###give_dummy_vars(["Lvl","Bnk","HLS","Low"],"LandContour")
+give_dummy_vars(["Lvl","Bnk","HLS","Low"],"LandContour")
 
 # print trainfile.info()
 # print testfile.info()
@@ -324,11 +324,11 @@ ct_lotconfig, sum_lotconfig = average_counts(5,["Inside","Corner","CulDSac","FR2
 print ct_lotconfig
 print sum_lotconfig/ct_lotconfig
 '''
-###give_dummy_vars(["Inside","Corner","CulDSac","FR2","FR3"],"LotConfig")
+give_dummy_vars(["Inside","Corner","CulDSac","FR2","FR3"],"LotConfig")
 
 #LandSlope
 # ct_ls,sum_ls = average_counts(3,["Gtl","Mod","Sev"],"LandSlope")
-###give_dummy_vars(["Gtl","Mod","Sev"],"LandSlope")
+give_dummy_vars(["Gtl","Mod","Sev"],"LandSlope")
 '''
 #Neighbourhood
 neighbors=["Blmngtn","Blueste","BrDale","BrkSide","ClearCr","CollgCr","Crawfor","Edwards","Gilbert","IDOTRR","MeadowV","Mitchel","NAmes","NoRidge","NPkVill","NridgHt","NWAmes","OldTown","SWISU","Sawyer","SawyerW","Somerst","StoneBr","Timber","Veenker"]
@@ -338,7 +338,7 @@ plt.plot(range(0,25),sum_ng/ct_ng)
 plt.savefig("neighbors.png")
 '''
 neighbors=["Blmngtn","Blueste","BrDale","BrkSide","ClearCr","CollgCr","Crawfor","Edwards","Gilbert","IDOTRR","MeadowV","Mitchel","NAmes","NoRidge","NPkVill","NridgHt","NWAmes","OldTown","SWISU","Sawyer","SawyerW","Somerst","StoneBr","Timber","Veenker"]
-###give_dummy_vars(neighbors,"Neighborhood")
+give_dummy_vars(neighbors,"Neighborhood")
 '''
 #Condition1&2
 ct_cond1,sum_cond1 = average_counts(9,conditions,"Condition1")
@@ -351,16 +351,16 @@ print sum_cond/ct_cond
 # plt.savefig("Conditon1_and_2.png")
 '''
 conditions = ["Artery","Feedr","Norm","RRNn","RRAn","PosN","PosA","RRNe","RRAe"]
-###give_dummy_vars(conditions,"Condition1")
-###give_dummy_vars(conditions,"Condition2")
+give_dummy_vars(conditions,"Condition1")
+give_dummy_vars(conditions,"Condition2")
 
 #BldgType
 #ct_btype,sum_btype = average_counts(5,["1Fam","2fmCon","Duplex","TwnhsE","Twnhs"],"BldgType")
-###give_dummy_vars(["1Fam","2fmCon","Duplex","TwnhsE","Twnhs"],"BldgType")
+give_dummy_vars(["1Fam","2fmCon","Duplex","TwnhsE","Twnhs"],"BldgType")
 
 #HouseStyle
 #ct_htype,sum_htype = average_counts(8,["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer","SLvl"],"HouseStyle")
-###give_dummy_vars(["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer","SLvl"],"HouseStyle")
+give_dummy_vars(["1Story","1.5Fin","1.5Unf","2Story","2.5Fin","2.5Unf","SFoyer","SLvl"],"HouseStyle")
 
 #OverallQuality
 #ct_overall,sum_overall = average_counts(10,range(1,11),"OverallQual")
@@ -444,7 +444,7 @@ testfile["YearRemodAdd"]=testfile["YearRemodAdd"].astype(int)
 
 #RoofStyle
 #ct_rd,sum_rs=average_counts(6,["Flat","Gable","Gambrel","Hip","Mansard","Shed"],"RoofStyle")
-###give_dummy_vars(["Flat","Gable","Gambrel","Hip","Mansard","Shed"],"RoofStyle")
+give_dummy_vars(["Flat","Gable","Gambrel","Hip","Mansard","Shed"],"RoofStyle")
 
 #RoofMatl
 #ct_rm,sum_rm = average_counts(8,["ClyTile","CompShg","Membran","Metal","Roll","Tar&Grv","WdShake","WdShngl"],"RoofMatl")
@@ -480,7 +480,7 @@ dropfunc("Exterior2nd")
 trainfile["MasVnrType"].fillna("None",inplace=True)
 testfile["MasVnrType"].fillna("None",inplace=True)
 
-###give_dummy_vars(["BrkCmn","BrkFace","None","Stone"],"MasVnrType")
+give_dummy_vars(["BrkCmn","BrkFace","None","Stone"],"MasVnrType")
 
 #MSVnrArea
 #print (trainfile["MasVnrArea"]==0).sum()
@@ -490,7 +490,7 @@ dropfunc("MasVnrArea")
 #ExterQual
 #cteq,sumeq = average_counts(5,["Ex","Gd","TA","Fa","Po"],"ExterQual")
 #print (testfile["ExterQual"]=="Po").sum()
-###give_dummy_vars(["Ex","Gd","TA","Fa"],"ExterQual")
+give_dummy_vars(["Ex","Gd","TA","Fa"],"ExterQual")
 
 #ExterCond
 # ctec,sumec = average_counts(5,["Ex","Gd","TA","Fa","Po"],"ExterCond")
@@ -500,13 +500,13 @@ dropfunc("ExterCond")
 
 #Foundation
 #cf,sumf = average_counts(6,["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
-###give_dummy_vars(["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
+give_dummy_vars(["BrkTil","CBlock","PConc","Slab","Stone","Wood"],"Foundation")
 
 #BsmtQual
 # ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"BsmtQual")
 trainfile["BsmtQual"].fillna("TA",inplace=True)
 testfile["BsmtQual"].fillna("TA",inplace=True)
-###give_dummy_vars(["Ex","Gd","TA","Fa"],"BsmtQual")
+give_dummy_vars(["Ex","Gd","TA","Fa"],"BsmtQual")
 # print (testfile["BsmtQual"]=="Po").sum()
 
 #BsmtCond
@@ -519,14 +519,14 @@ dropfunc("BsmtCond")
 # ctbm,sumbm = average_counts(5,["Gd","Av",'Mn','No','NA'],"BsmtExposure")
 trainfile["BsmtExposure"].fillna("No",inplace=True)
 testfile["BsmtExposure"].fillna("No",inplace=True)
-###give_dummy_vars(["Gd","Av",'Mn','No'],"BsmtExposure")
+give_dummy_vars(["Gd","Av",'Mn','No'],"BsmtExposure")
 
 #Basement finishing
 basement=['GLQ','ALQ','BLQ','Rec','LwQ','Unf','NA']
 # ct1,sum1 = average_counts(7,basement,"BsmtFinType1")
 trainfile["BsmtFinType1"].fillna("Unf",inplace=True)
 testfile["BsmtFinType1"].fillna("Unf",inplace=True)
-###give_dummy_vars(basement,"BsmtFinType1")
+give_dummy_vars(basement,"BsmtFinType1")
 #Drop finishing type 2
 dropfunc("BsmtFinType2")
 dropfunc("BsmtFinSF2")
@@ -556,11 +556,11 @@ dropfunc("Heating")
 
 #HeatingQC
 #ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"HeatingQC")
-###give_dummy_vars(["Ex","Gd","TA","Fa","Po"],"HeatingQC")
+give_dummy_vars(["Ex","Gd","TA","Fa","Po"],"HeatingQC")
 
 # CentralAir
 #ctca,sumca = average_counts(2,["N","Y"],"CentralAir")
-###give_dummy_vars(["N","Y"],"CentralAir")
+give_dummy_vars(["N","Y"],"CentralAir")
 
 #Electrical 1 null in train
 #ctet,sumet = average_counts(5,['SBrkr','FuseA','FuseF','FuseP','Mix'],"Electrical")
@@ -617,7 +617,7 @@ dropfunc("KitchenAbvGr")
 #KitchenQual
 #ctkq,sumkq = ctbsm,sumbsm = average_counts(5,["Ex","Gd","TA","Fa","Po"],"KitchenQual")
 testfile["KitchenQual"].fillna("TA",inplace=True)
-###give_dummy_vars(["Ex","Gd","TA","Fa"],"KitchenQual")
+give_dummy_vars(["Ex","Gd","TA","Fa"],"KitchenQual")
 
 #TotRmsAbvGrd
 # plotfunc("TotRmsAbvGrd")
@@ -638,5 +638,129 @@ dropfunc("FireplaceQu")
 #ctga,sumga = average_counts(7,['2Types','Attchd','Basment','BuiltIn','CarPort','Detchd','NA'],"GarageType")
 trainfile["GarageType"].fillna("Attchd",inplace=True)
 testfile["GarageType"].fillna("Attchd",inplace=True)
-###give_dummy_vars(['2Types','Attchd','Basment','BuiltIn','CarPort','Detchd','NA'],"GarageType")
+give_dummy_vars(['2Types','Attchd','Basment','BuiltIn','CarPort','Detchd','NA'],"GarageType")
+
+#GarageYrBlt
+# MINBUILT = np.amin(np.array(trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])==False]))
+# MAXBUILT = np.amax(np.array(trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])==False]))
+garagemat = (np.array(trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])==False]).astype(int)-1900)/10
+# ct_yearadd = np.zeros(12)
+# sum_yearadd = np.zeros(12)
+# i=0
+# for x in garagemat:
+# 	ct_yearadd[x]+=1
+# 	sum_yearadd[x]+=mat_price[i]
+# 	i+=1
+# print ct_yearadd
+# print sum_yearadd/ct_yearadd
+#ctnull = trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])].sum()
+ctnull = pd.isnull(trainfile["GarageYrBlt"]).sum()
+meanv = int((trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])==False]).mean())
+stdv = int((trainfile["GarageYrBlt"][pd.isnull(trainfile["GarageYrBlt"])==False]).std())
+ctnull2 = pd.isnull(testfile["GarageYrBlt"]).sum()
+meanv2 = int((testfile["GarageYrBlt"][pd.isnull(testfile["GarageYrBlt"])==False]).mean())
+stdv2 = int((testfile["GarageYrBlt"][pd.isnull(testfile["GarageYrBlt"])==False]).std())
+#print ctnull,meanv,stdv
+
+rand_train = np.random.randint(meanv-stdv,meanv+stdv, size = ctnull)
+rand_test = np.random.randint(meanv2-stdv2,meanv2+stdv2, size = ctnull2)
+
+trainfile["GarageYrBlt"][np.isnan(trainfile["GarageYrBlt"])]=rand_train
+testfile["GarageYrBlt"][np.isnan(testfile["GarageYrBlt"])]=rand_test
+
+for i,s in trainfile.iterrows():
+		trainfile.loc[i,"GarageYrBlt"] = (trainfile.loc[i,"GarageYrBlt"]-1900)/10
+for i,s in testfile.iterrows():
+		testfile.loc[i,"GarageYrBlt"] = (testfile.loc[i,"GarageYrBlt"]-1900)/10
+
+trainfile["GarageYrBlt"]=trainfile["GarageYrBlt"].astype(int)
+testfile["GarageYrBlt"]=testfile["GarageYrBlt"].astype(int)
+# print trainfile["GarageYrBlt"].head()
+# print testfile["GarageYrBlt"].head()
+
+#GarageFinish
+#ctg,sumg = average_counts(3,['Fin','RFn','Unf'],'GarageFinish')
+# print (testfile["GarageFinish"]=="NA").sum()
+give_dummy_vars(['Fin','RFn','Unf'],'GarageFinish')
+ctn = pd.isnull(trainfile["GarageFinish"]).sum()
+ctn2 = pd.isnull(testfile["GarageFinish"]).sum()
+trainfile["GarageFinish"][pd.isnull(trainfile["GarageFinish"])] = np.random.randint(0,2,size=ctn)
+testfile["GarageFinish"][pd.isnull(testfile["GarageFinish"])] = np.random.randint(0,2,size=ctn)
+
+# print trainfile["GarageFinish"].head()
+# print testfile["GarageFinish"].head()
+
+#GarageCars
+# plotfunc("GarageCars")
+testfile["GarageCars"].fillna(3,inplace=True)
+
+#GarageArea
+#plotfunc("GarageArea")
+meanvalue = int((testfile["GarageArea"][pd.isnull(testfile["GarageArea"])==False]).mean())
+# print meanvalue
+testfile["GarageArea"].fillna(meanvalue,inplace=True)
+'''
+#GarageQual
+#ctkq,sumkq = ctbsm,sumbsm = average_counts(6,["Ex","Gd","TA","Fa","Po","NA"],"GarageQual")
+dropfunc("GarageQual")
+
+#GarageCond
+#ctkq,sumkq = ctbsm,sumbsm = average_counts(6,["Ex","Gd","TA","Fa","Po","NA"],"GarageCond")
+dropfunc("GarageCond")
+
+#PavedDrive
+#ctp,sump = average_counts(3,['Y','P','N'],"PavedDrive")
+dropfunc("PavedDrive")
+
+#WoodDeckSF
+#plotfunc("WoodDeckSF")
+
+#OpenPorchSF
+#plotfunc("OpenPorchSF")
+
+#EnclosedPorch
+#plotfunc("EnclosedPorch")
+dropfunc("EnclosedPorch")
+
+#3SsnPorch
+# plotfunc("3SsnPorch")
+dropfunc("3SsnPorch")
+
+#ScreenPorch
+# plotfunc("ScreenPorch")
+dropfunc("ScreenPorch")
+
+#PoolArea
+# plotfunc("PoolArea")
+dropfunc("PoolArea")
+dropfunc("PoolQC")
+'''
+#MiscVal
+#plotfunc("MiscVal")
+# print (trainfile["MiscVal"]==0).sum()
+trainfile.drop(["GarageQual","GarageCond","PavedDrive","EnclosedPorch","3SsnPorch","ScreenPorch","PoolArea","PoolQC","Fence","MiscFeature","MiscVal"],axis=1,inplace=True)
+testfile.drop(["GarageQual","GarageCond","PavedDrive","EnclosedPorch","3SsnPorch","ScreenPorch","PoolArea","PoolQC","Fence","MiscFeature","MiscVal"],axis=1,inplace=True)
+
+# plotfunc("MoSold")
+
+#YrSold
+# plotfunc("YrSold")
+dropfunc("YrSold")
+
+#SaleType
+#ctst,sumst =average_counts(10,['WD','CWD','VWD','New','COD','Con','ConLw','ConLI','ConLD','Oth'],"SaleType")
+dropfunc("SaleType")
+
+#SaleCondition
+#ctsc,sumsc = average_counts(6,['Normal','Abnorml','AdjLand','Alloca','Family','Partial'],"SaleCondition")
+dropfunc("SaleCondition")
+
+#Regression
+train_data = trainfile.as_matrix()
+train_features = train_data[:,:-1]
+train_labels = train_data[:,-1:]
+
+# print train_features[0]
+# print "------------------------------"
+# print train_labels[0]
 
