@@ -760,7 +760,29 @@ train_data = trainfile.as_matrix()
 train_features = train_data[:,:-1]
 train_labels = train_data[:,-1:]
 
+# split_train_features = train_features[:1100,:]
+# split_train_labels = train_labels[:1100,:]
+# split_test_features = train_features[1100:,:]
+# split_test_labels = train_labels[1100:,:]
+
 # print train_features[0]
 # print "------------------------------"
 # print train_labels[0]
 
+# regressor = LinearRegression()
+# regressor.fit(split_train_features,split_train_labels)
+# print regressor.score(split_test_features,split_test_labels)
+
+#regressor.fit(train_features,trainn_labels)
+regressor = LinearRegression()
+regressor.fit(train_features,train_labels)
+test_features = testfile.as_matrix()[:,:]
+predictions = regressor.predict(test_features)
+
+
+#print predictions
+data=[]
+for i in range(1461,2920):
+	data.append([i,predictions[i-1461,0]])
+print data
+pd.DataFrame(data).to_csv("predictions.csv",index=False,header=['Id','SalePrice'])
