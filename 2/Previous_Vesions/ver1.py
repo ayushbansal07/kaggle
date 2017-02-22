@@ -72,8 +72,6 @@ def MSSC(x):
 		if x==i:
 			return j
 		j+=1
-
-
 mssc = np.zeros(16)
 msscsum = np.zeros(16)
 i=0
@@ -94,7 +92,6 @@ plt.savefig("MSSubClass.png")
 #Can be removed
 mszoningmat = train_features[:,1]
 ct = np.zeros(5)
-
 sumval = np.zeros(5)
 i=0
 for x in mszoningmat:
@@ -117,13 +114,11 @@ for i,s in testfile.iterrows():
 		testfile.loc[i,"MSZoning"] = getval(s["MSZoning"])
 # print trainfile.head()
 # print testfile.head()
-
 #Not able t join it.
 # trainfile.join(MSZoning_train_dummies)	
 # testfile.join(MSZoning_test_dummies)
 # trainfile.drop(['MSZoning'],inplace=True,axis=1)
 # testfile.drop(['MSZoning'],inplace=True,axis=1)
-
 # print trainfile.head()
 '''
 def getval_MSZoning(x):
@@ -171,15 +166,12 @@ testfile["LotFrontage"][np.isnan(testfile["LotFrontage"])]=rand_test
 # plt.show()
 # MIN_SALES_PRICE = np.amin(np.array(trainfile["SalePrice"]))
 # MAX_SALES_PRICE = np.amax(np.array(trainfile["SalePrice"]))
-
 mat_lot = np.array(trainfile["LotFrontage"])
 mat_price = np.array(trainfile["SalePrice"])
 MAXVAL = np.amax(mat_lot)
 MINVAL = np.amin(mat_lot)
-
 ct = np.zeros(10)
 sm = np.zeros(10)
-
 factor = math.ceil((MAXVAL-MINVAL)/10.)
 i=0
 print ct[0]
@@ -187,7 +179,6 @@ for x in mat_lot:
 	ct[(x-MINVAL)/factor]+=1
 	sm[(x-MINVAL)/factor]+=mat_price[i]
 	i+=1
-
 # plt.hist(np.array(trainfile["LotFrontage"]),5,(np.array(trainfile["SalePrice"])-MIN_SALES_PRICE)/((MAX_SALES_PRICE- MIN_SALES_PRICE)*1000.))
 plt.plot(np.array([0,1,2,3,4,5,6,7,8,9]),sm/ct)
 plt.savefig("LotFrontage.png")
@@ -234,7 +225,6 @@ for x in trainfile["LotShape"]:
 		ct_lotshape[3]+=1
 		sum_lotshape[3]+=mat_price[i]
 	i+=1
-
 print ct_lotshape
 print sum_lotshape/ct_lotshape
 '''
@@ -332,7 +322,6 @@ give_dummy_vars(["Gtl","Mod","Sev"],"LandSlope")
 '''
 #Neighbourhood
 neighbors=["Blmngtn","Blueste","BrDale","BrkSide","ClearCr","CollgCr","Crawfor","Edwards","Gilbert","IDOTRR","MeadowV","Mitchel","NAmes","NoRidge","NPkVill","NridgHt","NWAmes","OldTown","SWISU","Sawyer","SawyerW","Somerst","StoneBr","Timber","Veenker"]
-
 ct_ng,sum_ng = average_counts(25,neighbors,"Neighborhood")
 plt.plot(range(0,25),sum_ng/ct_ng)
 plt.savefig("neighbors.png")
@@ -536,8 +525,6 @@ dropfunc("BsmtFinSF2")
 # plt.savefig("BsmtFinSF1.png")
 testfile["BsmtFinSF1"].fillna(0,inplace=True)
 
-#print (trainfile["BsmtFinSF1"]>4000).sum()
-trainfile = trainfile[trainfile["BsmtFinSF1"]<4000]
 #BsmtUnfSF
 # print (trainfile["BsmtUnfSF"]==0).sum()
 # plt.scatter(trainfile["BsmtUnfSF"],trainfile["SalePrice"])
@@ -550,7 +537,6 @@ dropfunc("BsmtUnfSF")
 # plt.savefig("TotalBsmtSF.png")
 
 testfile["TotalBsmtSF"].fillna(0,inplace=True)
-trainfile = trainfile[trainfile["TotalBsmtSF"]<5000]
 
 #Heating
 #ctht,sumht = average_counts(6,['Floor','GasA','GasW','Grav','OthW','Wall'],'Heating')
@@ -577,12 +563,6 @@ def plotfunc(varname):
 
 #1stFlrSF
 #plotfunc("1stFlrSF")
-#Remove Outliers
-# print trainfile["1stFlrSF"]>3000
-# ol = (trainfile["1stFlrSF"]>3000).sum()
-# print "outliers in 1stFlrSF = ",ol
-# trainfile.drop(trainfile["1stFlrSF"][trainfile["1stFlrSF"]>3000],inplave=True)
-trainfile = trainfile[trainfile["1stFlrSF"]<3000]
 
 #2ndFlrSF
 # plotfunc("2ndFlrSF")
@@ -598,7 +578,6 @@ dropfunc("LowQualFinSF")
 #GrLivArea
 #plotfunc("GrLivArea")
 # print (trainfile["GrLivArea"]==0).sum()
-trainfile = trainfile[trainfile["GrLivArea"]<4000]
 
 #BsmtFullBath 2 na in testfile
 # plotfunc("BsmtFullBath")
@@ -709,33 +688,29 @@ testfile["GarageCars"].fillna(3,inplace=True)
 meanvalue = int((testfile["GarageArea"][pd.isnull(testfile["GarageArea"])==False]).mean())
 # print meanvalue
 testfile["GarageArea"].fillna(meanvalue,inplace=True)
-#print (trainfile["GarageArea"]>1200).sum()
-trainfile = trainfile[trainfile["GarageArea"]<1200]
 '''
 #GarageQual
 #ctkq,sumkq = ctbsm,sumbsm = average_counts(6,["Ex","Gd","TA","Fa","Po","NA"],"GarageQual")
 dropfunc("GarageQual")
-
 #GarageCond
 #ctkq,sumkq = ctbsm,sumbsm = average_counts(6,["Ex","Gd","TA","Fa","Po","NA"],"GarageCond")
 dropfunc("GarageCond")
-
 #PavedDrive
 #ctp,sump = average_counts(3,['Y','P','N'],"PavedDrive")
 dropfunc("PavedDrive")
-
+#WoodDeckSF
+#plotfunc("WoodDeckSF")
+#OpenPorchSF
+#plotfunc("OpenPorchSF")
 #EnclosedPorch
 #plotfunc("EnclosedPorch")
 dropfunc("EnclosedPorch")
-
 #3SsnPorch
 # plotfunc("3SsnPorch")
 dropfunc("3SsnPorch")
-
 #ScreenPorch
 # plotfunc("ScreenPorch")
 dropfunc("ScreenPorch")
-
 #PoolArea
 # plotfunc("PoolArea")
 dropfunc("PoolArea")
@@ -746,14 +721,6 @@ dropfunc("PoolQC")
 # print (trainfile["MiscVal"]==0).sum()
 trainfile.drop(["GarageQual","GarageCond","PavedDrive","EnclosedPorch","3SsnPorch","ScreenPorch","PoolArea","PoolQC","Fence","MiscFeature","MiscVal"],axis=1,inplace=True)
 testfile.drop(["GarageQual","GarageCond","PavedDrive","EnclosedPorch","3SsnPorch","ScreenPorch","PoolArea","PoolQC","Fence","MiscFeature","MiscVal"],axis=1,inplace=True)
-
-#OpenPorchSF
-#plotfunc("OpenPorchSF")
-trainfile = trainfile[trainfile["OpenPorchSF"]<400]
-
-#WoodDeckSF
-#plotfunc("WoodDeckSF")
-trainfile = trainfile[trainfile["WoodDeckSF"]<700]
 
 # plotfunc("MoSold")
 
@@ -768,8 +735,7 @@ dropfunc("SaleType")
 #SaleCondition
 #ctsc,sumsc = average_counts(6,['Normal','Abnorml','AdjLand','Alloca','Family','Partial'],"SaleCondition")
 dropfunc("SaleCondition")
-printinfo()
-'''
+
 #Regression
 train_data = trainfile.as_matrix()
 train_features = train_data[:,:-1]
@@ -801,4 +767,3 @@ for i in range(1461,2920):
 	data.append([i,predictions[i-1461,0]])
 print data
 pd.DataFrame(data).to_csv("predictions.csv",index=False,header=['Id','SalePrice'])
-'''
